@@ -1,6 +1,9 @@
 package com.strom.study.demo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
 
 public class SimpleQuestions {
 
@@ -210,6 +213,8 @@ public class SimpleQuestions {
         }
         return ans + day;
     }
+
+
 
 
 
