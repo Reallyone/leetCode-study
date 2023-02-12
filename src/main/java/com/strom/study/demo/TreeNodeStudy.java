@@ -64,11 +64,11 @@ public class TreeNodeStudy {
         for (int i = 0; i < numRows; i++) {
             System.out.println(i);
             List<Integer> subList = new ArrayList<>();
-            for (int j = 0; j <=i; j++) {
-                if(j==0 || j==i){
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
                     arr[i][j] = 1;
-                }else{
-                    arr[i][j] = arr[i-1][j-1]+arr[i-1][j];
+                } else {
+                    arr[i][j] = arr[i - 1][j - 1] + arr[i - 1][j];
                 }
                 subList.add(arr[i][j]);
             }
@@ -79,26 +79,24 @@ public class TreeNodeStudy {
 
     /**
      * 给定一个非负索引 rowIndex，返回「杨辉三角」的第 rowIndex 行。
-     *
+     * <p>
      * 在「杨辉三角」中，每个数是它左上方和右上方的数的和。
+     *
      * @param rowIndex
      * @return
      */
     public static List<Integer> getRow(int rowIndex) {
-        List<Integer> numbers = new ArrayList<>(rowIndex+1);
+        List<Integer> numbers = new ArrayList<>(rowIndex + 1);
         long cur = 1;
 
-        for (int i=0;i<=rowIndex;i++){
+        for (int i = 0; i <= rowIndex; i++) {
             numbers.add((int) cur);
-            System.out.println(cur +"=="+(rowIndex-i));
-            cur = cur * (rowIndex -i)/(i+1);
-            System.out.println("----"+cur);
+            System.out.println(cur + "==" + (rowIndex - i));
+            cur = cur * (rowIndex - i) / (i + 1);
+            System.out.println("----" + cur);
         }
         return numbers;
     }
-
-
-
 
 
     public static void main(String[] args) {
