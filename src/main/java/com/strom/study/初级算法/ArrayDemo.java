@@ -60,16 +60,16 @@ public class ArrayDemo {
 
     /**
      * 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
-     * 
+     * <p>
      * 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
-     * 
+     * <p>
      * 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0
-     * 
+     * <p>
      * 作者：力扣 (LeetCode)
      * 链接：https://leetcode.cn/leetbook/read/top-interview-questions-easy/xn8fsh/
      * 来源：力扣（LeetCode）
      * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-     * 
+     *
      * @param prices
      * @return
      */
@@ -273,11 +273,11 @@ public class ArrayDemo {
             }
         }
 
-        for (; i < m;) {
+        for (; i < m; ) {
             temp[index++] = nums1[i++];
         }
 
-        for (; j < n;) {
+        for (; j < n; ) {
             temp[index++] = nums2[j++];
         }
 
@@ -289,9 +289,9 @@ public class ArrayDemo {
 
     /**
      * 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
-     * 
+     * <p>
      * 子数组 是数组中的一个连续部分。
-     * 
+     *
      * @param nums
      * @return
      */
@@ -335,10 +335,30 @@ public class ArrayDemo {
         return Math.max(dp0, dp1);
     }
 
+    /**
+     * 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int[] twoSum(int[] nums, int target) {
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            for (int j = i + 1; j < len; j++) {
+                if (nums[i] + nums[j] == target) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return new int[0];
+    }
+
+
     public static void main(String[] args) {
-        int[] nums1 = new int[] { 0, 1, 0, 3, 12 };
-        int[] nums2 = new int[] { -2, 1, -3, 4, -1, 2, 1, -5, 4 };
-        System.out.println(maxSubArray(nums2));
+        int[] nums1 = new int[]{0, 1, 0, 3, 12};
+        int[] nums2 = new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        System.out.println(Arrays.toString(twoSum(nums1, 4)));
     }
 
 }
