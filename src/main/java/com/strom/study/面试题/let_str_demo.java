@@ -167,7 +167,7 @@ public class let_str_demo {
                 new_matrix[j][n - i - 1] = matrix[i][j];
             }
         }
-        System.out.println("a:"+Arrays.deepToString(new_matrix) );
+        System.out.println("a:" + Arrays.deepToString(new_matrix));
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 matrix[i][j] = new_matrix[i][j];
