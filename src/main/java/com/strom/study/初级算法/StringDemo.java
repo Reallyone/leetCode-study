@@ -150,11 +150,27 @@ public class StringDemo {
         return sb.reverse().toString();
     }
 
+    /**
+     * 给你一个字符串 columnTitle ，表示 Excel 表格中的列名称。返回 该列名称对应的列序号 。
+     *
+     * @param columnTitle
+     * @return
+     */
+    public static int titleToNumber(String columnTitle) {
+        char[] charArray = columnTitle.toCharArray();
+
+        int res = 0;
+        for (int i = 0; i < charArray.length; i++) {
+            res = res * 26 + (charArray[i] - 'A' + 1);
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         int num = 1;
-        char a = (char) (num % 26 + 'A');
-        System.out.println(a);
-        System.out.println(convertToTitle(3));
+        int a = (int) (num - 'A' + 1);
+//        System.out.println(a);
+        System.out.println(titleToNumber("AB"));
     }
 }
