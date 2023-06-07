@@ -1,5 +1,8 @@
 package com.strom.study.初级算法;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 public class StringDemo {
@@ -88,7 +91,70 @@ public class StringDemo {
     }
 
 
+    /**
+     * 将一个给定字符串 s 根据给定的行数 numRows ，以从上往下、从左到右进行 Z 字形排列。
+     * <p>
+     * 比如输入字符串为 "PAYPALISHIRING" 行数为 3 时，排列如下：
+     * P     A     H   N
+     * A  P  L  S  I   I  G
+     * Y     I    R
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode.cn/problems/zigzag-conversion
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * @param s
+     * @param numRows
+     * @return
+     */
+    public static String convert(String s, int numRows) {
+        if (s.length() < 2) return s;
+
+        List<StringBuilder> sblist = new ArrayList<>();
+
+        for (int i = 0; i < numRows; i++) {
+            sblist.add(new StringBuilder());
+        }
+
+        int i = 0, flag = -1;
+        for (char c : s.toCharArray()) {
+            sblist.get(i).append(c);
+            if (i == 0 || i == numRows - 1) {
+                flag = -flag;
+            }
+            i += flag;
+        }
+        StringBuilder res = new StringBuilder();
+        for (StringBuilder stringBuilder : sblist) {
+            res.append(stringBuilder);
+        }
+        return res.toString();
+    }
+
+
+    /**
+     * 给你一个整数 columnNumber ，返回它在 Excel 表中相对应的列名称。
+     *
+     * @param columnNumber
+     * @return
+     */
+    public static String convertToTitle(int columnNumber) {
+        if (columnNumber <= 0) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        while (columnNumber > 0) {
+            columnNumber--;
+            sb.append((char) (columnNumber % 26 + 'A'));
+            columnNumber = columnNumber / 26;
+        }
+        return sb.reverse().toString();
+    }
+
+
     public static void main(String[] args) {
-        System.out.println(isValid("()}"));
+        int num = 1;
+        char a = (char) (num % 26 + 'A');
+        System.out.println(a);
+        System.out.println(convertToTitle(3));
     }
 }
