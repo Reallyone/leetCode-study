@@ -171,6 +171,10 @@ public class StringDemo {
         int num = 1;
         int a = (int) (num - 'A' + 1);
 //        System.out.println(a);
-        System.out.println(titleToNumber("AB"));
+
+        int nums = (int) ('A' - 'A' + 1);
+        System.out.println(nums);
+
+//        System.out.println(titleToNumber("AB"));
     }
 }
