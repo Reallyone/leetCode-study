@@ -177,8 +177,36 @@ public class ListDemo {
     }
 
 
+    /**
+     * 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+     * <p>
+     * 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+     * <p>
+     * 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode.cn/problems/best-time-to-buy-and-sell-stock
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * [7,1,5,3,6,4]
+     *
+     * @param prices
+     * @return
+     */
+    public static int maxProfit(int[] prices) {
+        if (prices.length <= 1) return 0;
+        //定义一个最小的利润
+        int min = prices[0], max = 0;
+        for (int i = 0; i < prices.length; i++) {
+            max = Math.max(max, prices[i] - min);
+            min = Math.min(min, prices[i]);
+            System.out.println(max + "==" + min);
+        }
+        return max;
+    }
+
+
     public static void main(String[] args) {
-        int[] nums1 = new int[]{7,1,5,3,6,4};
+        int[] nums1 = new int[]{7, 1, 5, 3, 6, 4};
         int[] nums2 = new int[]{2, 5, 6};
         System.out.println(maxProfit(nums1));
     }
