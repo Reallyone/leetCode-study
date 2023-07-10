@@ -158,10 +158,10 @@ public class ListDemo {
             }
         }
 
-        AtomicReference<Integer> value= new AtomicReference<>(0);
-        AtomicReference<Integer> key= new AtomicReference<>(0);
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        AtomicReference<Integer> key = new AtomicReference<>(0);
         counts.forEach((k, v) -> {
-            if (v> value.get()){
+            if (v > value.get()) {
                 value.set(v);
                 key.set(k);
             }
@@ -178,9 +178,9 @@ public class ListDemo {
 
 
     public static void main(String[] args) {
-        int[] nums1 = new int[]{0, 0, 1, 1, 1, 1, 2, 3, 3};
+        int[] nums1 = new int[]{7,1,5,3,6,4};
         int[] nums2 = new int[]{2, 5, 6};
-        System.out.println(removeDuplicates2(nums1));
+        System.out.println(maxProfit(nums1));
     }
 
 }
