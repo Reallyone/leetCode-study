@@ -204,11 +204,98 @@ public class ListDemo {
         return max;
     }
 
+    /**
+     * 给定一个非负整数数组 nums ，你最初位于数组的 第一个下标 。
+     * <p>
+     * 数组中的每个元素代表你在该位置可以跳跃的最大长度。
+     * <p>
+     * 判断你是否能够到达最后一个下标。
+     * <p>
+     * 输入：nums = [2,3,1,1,4]
+     * 输出：true
+     * 解释：可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。
+     *
+     * @param nums
+     * @return
+     */
+    public static boolean canJump(int[] nums) {
+        int n = nums.length;
+        int rightmost = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (i <= rightmost) {
+                rightmost = Math.max(rightmost, i + nums[i]);
+                System.out.println(rightmost);
+                if (rightmost >= n - 1) {
+                    return true;
+                }
+            }
+        }
+
+
+        return false;
+    }
+
+    /**
+     * @param nums
+     * @return
+     */
+    public static int jump(int[] nums) {
+        if (nums.length == 1) return 0;
+        int reach = 0;
+        int nextreach = nums[0];
+        int step = 0;
+        for (int i = 0; i < nums.length; i++) {
+            nextreach = Math.max(i + nums[i], nextreach);
+            if (nextreach >= nums.length - 1) return (step + 1);
+            if (i == reach) {
+                step++;
+                reach = nextreach;
+            }
+        }
+        return step;
+    }
+
+    /**
+     * 如果在将所有大写字符转换为小写字符、并移除所有非字母数字字符之后，短语正着读和反着读都一样。则可以认为该短语是一个 回文串 。
+     * <p>
+     * 字母和数字都属于字母数字字符。
+     * <p>
+     * 给你一个字符串 s，如果它是 回文串 ，返回 true ；否则，返回 false 。
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode.cn/problems/valid-palindrome
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * <p>
+     * 输入: s = "A man, a plan, a canal: Panama"
+     * 输出：true
+     * 解释："amanaplanacanalpanama" 是回文串。
+     * <p>
+     *
+     * @param s
+     * @return
+     */
+    public static boolean isPalindrome(String s) {
+        StringBuffer sbf = new StringBuffer();
+        int length = s.length();
+        for (int i = 0; i < length; i++) {
+            char ch = s.charAt(i);
+            //判断是否是字符串和数字
+            if (Character.isLetterOrDigit(ch)) {
+                //变成小写字符
+                sbf.append(Character.toLowerCase(ch));
+            }
+        }
+        //判断是否为回文
+        StringBuffer sbf_rever = new StringBuffer(sbf).reverse();
+        return sbf.toString().equals(sbf_rever.toString());
+    }
+
 
     public static void main(String[] args) {
-        int[] nums1 = new int[]{7, 1, 5, 3, 6, 4};
-        int[] nums2 = new int[]{2, 5, 6};
-        System.out.println(maxProfit(nums1));
+        int[] nums1 = new int[]{2, 3, 1, 1, 4};
+        int[] nums2 = new int[]{2, 3, 1, 1, 4};
+        System.out.println(jump(nums2));
     }
 
 }
