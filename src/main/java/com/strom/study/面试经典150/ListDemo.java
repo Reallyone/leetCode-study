@@ -137,7 +137,7 @@ public class ListDemo {
 
 
     /**
-     * 给定一个大小为 n 的数组 nums ，返回其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
+     * 给定一个大小为 n 的数组nums ，返回其中的多数元素。多数元素是指在数组中出现次数 大于⌊ n/2 ⌋的元素。
      * <p>
      * 你可以假设数组是非空的，并且给定的数组总是存在多数元素。
      * <p>
@@ -178,7 +178,7 @@ public class ListDemo {
 
 
     /**
-     * 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+     * 给定一个数组 prices ，它的第i 个元素prices[i] 表示一支给定股票第 i 天的价格。
      * <p>
      * 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
      * <p>
@@ -291,11 +291,95 @@ public class ListDemo {
         return sbf.toString().equals(sbf_rever.toString());
     }
 
+    /**
+     * 给你一个整数数组 citations ，其中 citations[i] 表示研究者的第 i 篇论文被引用的次数。计算并返回该研究者的 h指数。
+     * <p>
+     * 根据维基百科上h 指数的定义：h 代表“高引用次数” ，一名科研人员的 h 指数 是指他（她）至少发表了 h 篇论文，
+     * 并且每篇论文 至少 被引用 h 次。如果 h 有多种可能的值，h 指数 是其中最大的那个。
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode.cn/problems/h-index
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * 输入：citations = [3,0,6,1,5]
+     * 输出：3
+     * 解释：给定数组表示研究者总共有 5 篇论文，每篇论文相应的被引用了 3, 0, 6, 1, 5 次。
+     * 由于研究者有 3 篇论文每篇 至少 被引用了 3 次，其余两篇论文每篇被引用 不多于 3 次，所以她的 h 指数是 3。
+     *
+     * @param citations
+     * @return
+     */
+    public static int hIndex(int[] citations) {
+        Arrays.sort(citations);
+        for (int i = 0; i < citations.length; i++) {
+            int h = citations.length - i;
+            if (h <= citations[i]) {
+                return h;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * 罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。
+     * <p>
+     * 字符          数值
+     * I             1
+     * V             5
+     * X             10
+     * L             50
+     * C             100
+     * D             500
+     * M             1000
+     * 罗马数字 2 写做II，即为两个并列的 1 。12 写做XII，即为X+II。 27 写做XXVII, 即为XX+V+II。
+     * <p>
+     * 通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做IIII，而是IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为IX。这个特殊的规则只适用于以下六种情况：
+     * <p>
+     * I可以放在V(5) 和X(10) 的左边，来表示 4 和 9。
+     * X可以放在L(50) 和C(100) 的左边，来表示 40 和90。
+     * C可以放在D(500) 和M(1000) 的左边，来表示400 和900。
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode.cn/problems/roman-to-integer
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * @param s
+     * @return
+     */
+    public static int romanToInt(String s) {
+        int sum = 0;
+        int preNum = getValue(s.charAt(0));
+        for (int i = 1; i < s.length(); i++) {
+            int num = getValue(s.charAt(i));
+            if (preNum < num){
+                sum -= preNum;
+            }else {
+                sum += preNum;
+            }
+            preNum = num;
+        }
+        System.out.println(sum+"=="+preNum);
+        sum += preNum;
+        return sum;
+    }
+
+    private  static int getValue(char ch) {
+        switch(ch) {
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            case 'L': return 50;
+            case 'C': return 100;
+            case 'D': return 500;
+            case 'M': return 1000;
+            default: return 0;
+        }
+    }
 
     public static void main(String[] args) {
         int[] nums1 = new int[]{2, 3, 1, 1, 4};
         int[] nums2 = new int[]{2, 3, 1, 1, 4};
-        System.out.println(jump(nums2));
+        System.out.println(romanToInt("IV"));
     }
 
 }
