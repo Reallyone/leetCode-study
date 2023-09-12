@@ -1,9 +1,11 @@
 package com.strom.study.大厂;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class let_str_demo {
 
@@ -22,8 +24,8 @@ public class let_str_demo {
      * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
      */
     public static String replaceWords(List<String> dictionary, String sentence) {
-        Set<String>  tes = new HashSet<>();
-        dictionary.forEach( str ->{
+        Set<String> tes = new HashSet<>();
+        dictionary.forEach(str -> {
             tes.add(str);
         });
         String[] s = sentence.split(" ");
@@ -39,12 +41,41 @@ public class let_str_demo {
         return String.join(" ", s);
     }
 
+    public static boolean isJanuaryAndValidMonth(Date A, int B) {
+        // 将java.util.Date转换为java.time.LocalDate
+        LocalDate localDateA = A.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        // 获取当前日期的年份和月份
+        int currentYear = LocalDate.now().getYear();
+        Month currentMonth = LocalDate.now().getMonth();
+
+        // 判断参数A的年份和月份是否与传入的参数B相同
+        return localDateA.getYear() == currentYear && localDateA.getMonthValue() == B;
+    }
+
+
     public static void main(String[] args) {
-        List<String> dictionary = new ArrayList<>();
-        dictionary.add("cat");
-        dictionary.add("bat");
-        dictionary.add("rat");
-        System.out.println(replaceWords(dictionary,"the cattle was rattled by the battery"));
+        String yearMonth = "2023" + "-" + "01";
+
+        String startDateStr = yearMonth + "-" + String.format("%02d", 111);
+
+
+        System.out.println(startDateStr);
+        Date reportStartDate =   toDate(startDateStr,"yyyy-MM-dd");
+        System.out.println(reportStartDate);
+
+
+    }
+
+    public static Date toDate(String dateStr, String format) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(format);
+        try {
+            LocalDate localDate = LocalDate.parse(dateStr, inputFormatter);
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            return Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
