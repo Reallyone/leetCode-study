@@ -351,35 +351,156 @@ public class ListDemo {
         int preNum = getValue(s.charAt(0));
         for (int i = 1; i < s.length(); i++) {
             int num = getValue(s.charAt(i));
-            if (preNum < num){
+            if (preNum < num) {
                 sum -= preNum;
-            }else {
+            } else {
                 sum += preNum;
             }
             preNum = num;
         }
-        System.out.println(sum+"=="+preNum);
+        System.out.println(sum + "==" + preNum);
         sum += preNum;
         return sum;
     }
 
-    private  static int getValue(char ch) {
-        switch(ch) {
-            case 'I': return 1;
-            case 'V': return 5;
-            case 'X': return 10;
-            case 'L': return 50;
-            case 'C': return 100;
-            case 'D': return 500;
-            case 'M': return 1000;
-            default: return 0;
+    private static int getValue(char ch) {
+        switch (ch) {
+            case 'I':
+                return 1;
+            case 'V':
+                return 5;
+            case 'X':
+                return 10;
+            case 'L':
+                return 50;
+            case 'C':
+                return 100;
+            case 'D':
+                return 500;
+            case 'M':
+                return 1000;
+            default:
+                return 0;
         }
     }
 
+
+    /**
+     * 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+     * [4,2,0,3,2,5]
+     *
+     * @param height
+     * @return
+     */
+    public static int trap(int[] height) {
+        if (height == null || height.length == 0) {
+            return 0;
+        }
+
+        int n = height.length;
+        int[] left_max = new int[n];
+        int[] right_max = new int[n];
+        int ans = 0;
+
+        left_max[0] = height[0];
+        for (int i = 1; i < n; i++) {
+            left_max[i] = Math.max(left_max[i - 1], height[i]);
+        }
+
+        right_max[n - 1] = height[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            right_max[i] = Math.max(right_max[i + 1], height[i]);
+        }
+
+        for (int i = 0; i < n; i++) {
+            ans += Math.min(left_max[i], right_max[i]) - height[i];
+        }
+
+        return ans;
+    }
+
+    /**
+     * 给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。
+     * <p>
+     * 题目数据 保证 数组 nums之中任意元素的全部前缀元素和后缀的乘积都在  32 位 整数范围内。
+     * <p>
+     * 请不要使用除法，且在 O(n) 时间复杂度内完成此题。
+     *
+     * @param nums
+     * @return
+     */
+    public int[] productExceptSelf(int[] nums) {
+        int length = nums.length;
+        int[] answer = new int[length];
+
+        // answer[i] 表示索引 i 左侧所有元素的乘积
+        // 因为索引为 '0' 的元素左侧没有元素， 所以 answer[0] = 1
+        answer[0] = 1;
+
+        for (int i = 1; i < length; i++) {
+            answer[i] = nums[i] * nums[i - 1];
+        }
+
+        // R 为右侧所有元素的乘积
+        // 刚开始右边没有元素，所以 R = 1
+
+        int R = 1;
+        for (int i = length - 1; i >= 0; i--) {
+            answer[i] = answer[i] * R;
+            R *= nums[i];
+        }
+        return answer;
+    }
+
+
+    public int candy(int[] ratings) {
+
+        return 0;
+    }
+
+
+    /**
+     * 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
+     * <p>
+     * 如果可以，返回 true ；否则返回 false 。
+     * <p>
+     * magazine 中的每个字符只能在 ransomNote 中使用一次。
+     * 输入：ransomNote = "a", magazine = "b"
+     * 输出：false
+     *
+     * @param ransomNote
+     * @param magazine
+     * @return
+     */
+    public boolean canConstruct(String ransomNote, String magazine) {
+        // 创建一个HashMap来存储字符和它们的出现次数
+        Map<Character, Integer> charCount = new HashMap<>();
+
+        // 遍历 magazine，统计每个字符的出现次数
+        for (char c : magazine.toCharArray()) {
+            charCount.put(c, charCount.getOrDefault(c, 0) + 1);
+        }
+
+        // 遍历 ransomNote，检查每个字符是否能在 magazine 中找到足够的次数
+        for (char c : ransomNote.toCharArray()) {
+            if (charCount.containsKey(c) && charCount.get(c) > 0) {
+                // 如果在 magazine 中还有剩余次数，则减少次数
+                charCount.put(c, charCount.get(c) - 1);
+            } else {
+                // 如果 magazine 中没有剩余次数，则无法构造 ransomNote
+                return false;
+            }
+        }
+
+        // 如果遍历完 ransomNote 中的所有字符都能在 magazine 中找到足够的次数，则返回 true
+        return true;
+    }
+
+
     public static void main(String[] args) {
-        int[] nums1 = new int[]{2, 3, 1, 1, 4};
+        int[] nums1 = new int[]{4, 2, 0, 3, 2, 5};
         int[] nums2 = new int[]{2, 3, 1, 1, 4};
-        System.out.println(romanToInt("IV"));
+        System.out.println(trap(nums1));
     }
 
 }
