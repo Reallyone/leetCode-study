@@ -384,6 +384,46 @@ public class ListDemo {
         }
     }
 
+    /**
+     * 罗马数字包含以下七种字符： I， V， X， L，C，D 和 M。
+     * <p>
+     * 字符          数值
+     * I             1
+     * V             5
+     * X             10
+     * L             50
+     * C             100
+     * D             500
+     * M             1000
+     * 例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。
+     * <p>
+     * 通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况：
+     * <p>
+     * I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。
+     * X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。
+     * C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。
+     *
+     * @param num
+     * @return
+     */
+    public static String intToRoman(int num) {
+        int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        StringBuffer roman = new StringBuffer();
+        for (int i = 0; i < values.length; ++i) {
+            int value = values[i];
+            String symbol = symbols[i];
+            while (num >= value) {
+                num -= value;
+                roman.append(symbol);
+            }
+            if (num == 0) {
+                break;
+            }
+        }
+        return roman.toString();
+    }
+
 
     /**
      * 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
@@ -496,11 +536,62 @@ public class ListDemo {
         return true;
     }
 
+    /**
+     * 给你一个字符串 s，由若干单词组成，单词前后用一些空格字符隔开。返回字符串中 最后一个 单词的长度。
+     * <p>
+     * 单词 是指仅由字母组成、不包含任何空格字符的最大子字符串。
+     *
+     * @param s
+     * @return
+     */
+    public int lengthOfLastWord(String s) {
+
+        int length = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) != ' ') {
+                length++;
+            } else if (length != 0) {
+                return length;
+            }
+        }
+        return length;
+    }
+
+    /**
+     * 编写一个函数来查找字符串数组中的最长公共前缀。
+     * <p>
+     * 如果不存在公共前缀，返回空字符串 ""。
+     * <p>
+     * <p>
+     * <p>
+     * 示例 1：
+     * <p>
+     * 输入：strs = ["flower","flow","flight"]
+     * 输出："fl"
+     *
+     * @param strs
+     * @return
+     */
+
+    public String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0) return "";
+        //公共前缀比所有字符串都短，随便选一个先
+        String s = strs[0];
+        for (String string : strs) {
+            while (!string.startsWith(s)) {
+                if (s.length() == 0) return "";
+                //公共前缀不匹配就让它变短！
+                s = s.substring(0, s.length() - 1);
+            }
+        }
+        return s;
+    }
+
 
     public static void main(String[] args) {
         int[] nums1 = new int[]{4, 2, 0, 3, 2, 5};
         int[] nums2 = new int[]{2, 3, 1, 1, 4};
-        System.out.println(trap(nums1));
+        System.out.println(intToRoman(13));
     }
 
 }
