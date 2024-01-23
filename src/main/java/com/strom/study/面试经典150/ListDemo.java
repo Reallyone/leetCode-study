@@ -2,6 +2,7 @@ package com.strom.study.面试经典150;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -587,11 +588,164 @@ public class ListDemo {
         return s;
     }
 
+    /**
+     * 在一条环路上有 n 个加油站，其中第 i 个加油站有汽油 gas[i] 升。
+     * <p>
+     * 你有一辆油箱容量无限的的汽车，从第 i 个加油站开往第 i+1 个加油站需要消耗汽油 cost[i] 升。你从其中的一个加油站出发，开始时油箱为空。
+     * <p>
+     * 给定两个整数数组 gas 和 cost ，如果你可以按顺序绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1 。如果存在解，则 保证 它是 唯一 的。
+     */
+
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length;
+        int totalGas = 0;
+        int currentGas = 0;
+        int startStationGas = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            totalGas += gas[i] - cost[i];
+
+            currentGas += gas[i] - cost[i];
+
+            // 如果当前油量不够，说明从当前加油站出发无法到达下一站
+            // 重新选择下一站为起点，并将当前油箱清空
+            if (currentGas < 0) {
+                startStationGas = i + 1;
+                currentGas = 0;
+            }
+        }
+
+        return totalGas >= 0 ? startStationGas : -1;
+    }
+
+    /**
+     * 给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串的第一个匹配项的下标（下标从 0 开始）。如果 needle 不是 haystack 的一部分，则返回  -1 。
+     *
+     * @param haystack
+     * @param needle
+     * @return
+     */
+    public int strStr(String haystack, String needle) {
+        int m = haystack.length();
+        int n = needle.length();
+
+        // 特殊情况处理
+        if (n == 0) {
+            return 0;
+        }
+
+        // 如果 haystack 的长度小于 needle 的长度，不可能匹配
+        if (m < n) {
+            return -1;
+        }
+
+        // 遍历 haystack，依次比较子串是否和 needle 相等
+        for (int i = 0; i <= m - n; i++) {
+            int j;
+            for (j = 0; j < n; j++) {
+                if (haystack.charAt(i + j) != needle.charAt(j)) {
+                    break;
+                }
+            }
+
+            // 如果 j 等于 needle 的长度，说明找到匹配项
+            if (j == n) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    /**
+     * 给你一个字符串 s ，请你反转字符串中 单词 的顺序。
+     * <p>
+     * 单词 是由非空格字符组成的字符串。s 中使用至少一个空格将字符串中的 单词 分隔开。
+     * <p>
+     * 返回 单词 顺序颠倒且 单词 之间用单个空格连接的结果字符串。
+     * <p>
+     * 注意：输入字符串 s中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。
+     *
+     * @param s
+     * @return
+     */
+    public static String reverseWords(String s) {
+        // 利用split()方法将字符串s分割成单词数组
+        String[] words = s.trim().split("\\s+");
+
+        // 使用StringBuilder逆序拼接单词数组
+        StringBuilder reversed = new StringBuilder();
+        for (int i = words.length - 1; i >= 0; i--) {
+            reversed.append(words[i]);
+            if (i > 0) {
+                reversed.append(" ");
+            }
+        }
+
+        return reversed.toString();
+    }
+
+    /**
+     * 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+     * <p>
+     * 字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+     * <p>
+     * 进阶：
+     * <p>
+     * 如果有大量输入的 S，称作 S1, S2, ... , Sk 其中 k >= 10亿，你需要依次检查它们是否为 T 的子序列。在这种情况下，你会怎样改变代码？
+     *
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isSubsequence(String s, String t) {
+        if (s.length() == 0) return true;
+        int i = 0;
+        for (int i1 = 0; i1 < t.length(); i1++) {
+            if (s.charAt(i1) == t.charAt(i1)) {
+                i++;
+                if (i == s.length()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * 给你一个下标从 1 开始的整数数组 numbers ，该数组已按 非递减顺序排列  ，请你从数组中找出满足相加之和等于目标数 target 的两个数。如果设这两个数分别是 numbers[index1] 和 numbers[index2] ，则 1 <= index1 < index2 <= numbers.length 。
+     * <p>
+     * 以长度为 2 的整数数组 [index1, index2] 的形式返回这两个整数的下标 index1 和 index2。
+     * <p>
+     * 你可以假设每个输入 只对应唯一的答案 ，而且你 不可以 重复使用相同的元素。
+     * <p>
+     * 你所设计的解决方案必须只使用常量级的额外空间。
+     *
+     * @param numbers
+     * @param target
+     * @return
+     */
+    public int[] twoSum(int[] numbers, int target) {
+        for (int i = 0, j = numbers.length - 1; i < j; ) {
+            int sum = numbers[i] + numbers[j];
+            if (sum == target) {
+                return new int[]{i + 1, j + 1};
+            } else if (sum > target) {
+                j--;
+            } else {
+                i++;
+            }
+        }
+        return null;
+    }
+
 
     public static void main(String[] args) {
-        int[] nums1 = new int[]{4, 2, 0, 3, 2, 5};
-        int[] nums2 = new int[]{2, 3, 1, 1, 4};
-        System.out.println(intToRoman(13));
+        String inputStr = "  hello world  ";
+        String result = reverseWords(inputStr);
+        System.out.println(result);
     }
 
 }
