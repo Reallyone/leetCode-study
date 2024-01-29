@@ -351,30 +351,82 @@ public class ListDemo {
         int preNum = getValue(s.charAt(0));
         for (int i = 1; i < s.length(); i++) {
             int num = getValue(s.charAt(i));
-            if (preNum < num){
+            if (preNum < num) {
                 sum -= preNum;
-            }else {
+            } else {
                 sum += preNum;
             }
             preNum = num;
         }
-        System.out.println(sum+"=="+preNum);
+        System.out.println(sum + "==" + preNum);
         sum += preNum;
         return sum;
     }
 
-    private  static int getValue(char ch) {
-        switch(ch) {
-            case 'I': return 1;
-            case 'V': return 5;
-            case 'X': return 10;
-            case 'L': return 50;
-            case 'C': return 100;
-            case 'D': return 500;
-            case 'M': return 1000;
-            default: return 0;
+    private static int getValue(char ch) {
+        switch (ch) {
+            case 'I':
+                return 1;
+            case 'V':
+                return 5;
+            case 'X':
+                return 10;
+            case 'L':
+                return 50;
+            case 'C':
+                return 100;
+            case 'D':
+                return 500;
+            case 'M':
+                return 1000;
+            default:
+                return 0;
         }
     }
+
+    //合并两个有序数组
+    public static int[] getNewArrays(int[] nums1, int[] nums2) {
+        int a = 0;
+        int b = 0;
+
+        int[] result = new int[nums1.length + nums2.length];
+        int index = 0;
+
+        while (a < nums1.length && b <nums2.length){
+            if (nums1[a] > nums2[b]){
+                result[index++] = nums2[b++];
+            }else if (nums1[a] < nums2[b]){
+                result[index++] = nums1[a++];
+            }else {
+                result[index++] = nums1[a++];
+                result[index++] = nums2[b++];
+            }
+        }
+
+        //将没有遍历完的数组剩余部分放到合并数组最后
+        while (a < nums1.length){
+            result[index++] = nums1[a++];
+        }
+
+        while (b < nums2.length){
+            result[index++] = nums2[b++];
+        }
+
+        return result;
+    }
+
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int[] newArray = getNewArrays(nums1, nums2);
+        if (newArray.length % 2 == 0) {
+            double a = newArray[(newArray.length / 2) - 1];
+            double b = newArray[((newArray.length + 2) / 2) - 1];
+            return (a + b) / 2;
+        } else {
+            int i = (newArray.length + 1) / 2;
+            return newArray[i - 1];
+        }
+    }
+
 
     public static void main(String[] args) {
         int[] nums1 = new int[]{2, 3, 1, 1, 4};
