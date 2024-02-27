@@ -167,7 +167,7 @@ public class StringDemo {
     }
 
 
-    public static void main(String[] args) {
+public static void main(String[] args) {
         int num = 1;
         int a = (int) (num - 'A' + 1);
 //        System.out.println(a);

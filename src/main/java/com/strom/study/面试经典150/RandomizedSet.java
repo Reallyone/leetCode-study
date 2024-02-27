@@ -104,13 +104,131 @@ public class RandomizedSet {
      * 然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。
      * 如果这个过程 结果为 1，那么这个数就是快乐数。
      * 如果 n 是 快乐数 就返回 true ；不是，则返回 false 。
-     *k
+     * k
+     *
      * @param n
      * @return
+     *
      */
     public boolean isHappy(int n) {
-
         return true;
+    }
+
+
+    /**
+     * 给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。
+     * <p>
+     * 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+     * <p>
+     * 返回容器可以储存的最大水量。
+     * <p>
+     * 说明：你不能倾斜容器。
+     *
+     * @param height
+     * @return
+     */
+    public int maxArea(int[] height) {
+        int l = 0, r = height.length - 1;
+        int ans = 0;
+
+        while (l < r) {
+            int area = Math.min(height[l], height[r]) * (r - l);
+            ans = Math.max(ans, area);
+            if (height[l] <= height[r]) {
+                ++l;
+            } else {
+                --r;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。请
+     * <p>
+     * 你返回所有和为 0 且不重复的三元组。
+     * <p>
+     * 注意：答案中不可以包含重复的三元组。
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> threeSum(int[] nums) {
+
+
+        return null;
+    }
+
+    /**
+     * 给定一个含有 n 个正整数的数组和一个正整数 target 。
+     * <p>
+     * 找出该数组中满足其总和大于等于 target 的长度最小的 连续子数组 [numsl, numsl+1, ..., numsr-1, numsr] ，并返回其长度。如果不存在符合条件的子数组，返回 0 。
+     *
+     * @param s
+     * @param nums
+     * @return
+     */
+    public int minSubArrayLen(int s, int[] nums) {
+        int n = nums.length;
+        if (n == 0) {
+            return 0;
+        }
+        int ans = Integer.MAX_VALUE;
+        int[] sums = new int[n + 1];
+
+        // 为了方便计算，令 size = n + 1
+        // sums[0] = 0 意味着前 0 个元素的前缀和为 0
+        // sums[1] = A[0] 前 1 个元素的前缀和为 A[0]
+        // 以此类推
+        for (int i = 1; i <= n; i++) {
+            sums[i] = sums[i - 1] + nums[i - 1];
+        }
+        for (int i = 1; i <= n; i++) {
+            int target = s + sums[i - 1];
+            int bound = Arrays.binarySearch(sums, target);
+            if (bound < 0) {
+                bound = -bound - 1;
+            }
+            if (bound <= n) {
+                ans = Math.min(ans, bound - (i - 1));
+            }
+        }
+        return ans == Integer.MAX_VALUE ? 0 : ans;
+    }
+
+
+    /**
+     * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+     * <p>
+     * 有效字符串需满足：
+     * <p>
+     * 左括号必须用相同类型的右括号闭合。
+     * 左括号必须以正确的顺序闭合。
+     * 每个右括号都有一个对应的相同类型的左括号。
+     *
+     * @param s
+     * @return
+     */
+    public boolean isValid(String s) {
+        Deque<Character> stack = new ArrayDeque<>();
+        for (char c : s.toCharArray()) { // 遍历字符串中的每个字符
+            switch (c) {
+                case '(': // 如果当前字符是左括号
+                    stack.push(')'); // 将对应的右括号压入栈中
+                    break;
+                case '[':
+                    stack.push(']');
+                    break;
+                case '{':
+                    stack.push('}');
+                    break;
+                default: // 如果当前字符是右括号
+                    if (stack.isEmpty() || stack.pop() != c) { // 弹出栈顶元素与当前字符比较，不匹配则返回 false
+                        return false;
+                    }
+            }
+        }
+        return stack.isEmpty();
     }
 
 
