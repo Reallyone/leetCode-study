@@ -1,9 +1,6 @@
 package com.strom.study.初级算法;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class StringDemo {
 
@@ -166,15 +163,52 @@ public class StringDemo {
         return res;
     }
 
+    /**
+     * 求数组中心下标
+     *
+     * @param nums
+     * @return
+     */
+    public int pivotIndex(int[] nums) {
+        int totalNum = 0;
+        int leftNum = 0;
+        for (int num : nums) {
+            totalNum += num;
+        }
 
-public static void main(String[] args) {
-        int num = 1;
-        int a = (int) (num - 'A' + 1);
-//        System.out.println(a);
+        for (int i = 0; i < nums.length; i++) {
+            if (leftNum == totalNum - leftNum - nums[i]) {
+                return i;
+            }
+            leftNum += nums[i];
+        }
+        return -1;
+    }
 
-        int nums = (int) ('A' - 'A' + 1);
-        System.out.println(nums);
 
-//        System.out.println(titleToNumber("AB"));
+    public int searchInsert(int[] nums, int target) {
+        //如果存在直接返回
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == target) {
+                return nums[i];
+            }
+        }
+        //排序
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (target > nums[i] && target < nums[i = 1]) {
+                //插入进去
+
+
+            }
+        }
+
+        return -1;
+    }
+
+
+    public static void main(String[] args) {
+        String s = "";
+        System.out.println(s.length());
     }
 }
