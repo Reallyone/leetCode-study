@@ -108,10 +108,30 @@ public class RandomizedSet {
      *
      * @param n
      * @return
-     *
      */
-    public boolean isHappy(int n) {
-        return true;
+    public static boolean isHappy(int n) {
+        int slow = n, fast = squareSum(n);
+        System.out.println("1---slow--" + slow + "fast--" + fast);
+        while (slow != fast) {
+            System.out.println("2---slow--" + slow + "fast--" + fast);
+            slow = squareSum(slow);
+            fast = squareSum(squareSum(fast));
+            System.out.println("3---slow--" + slow + "fast--" + fast);
+        }
+        ;
+        return slow == 1;
+    }
+
+
+    public static int squareSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            int digit = n % 10;
+            System.out.println("squareSum--n:" + n + "--digit:" + digit);
+            sum += digit * digit;
+            n /= 10;
+        }
+        return sum;
     }
 
 
@@ -206,7 +226,7 @@ public class RandomizedSet {
      * 左括号必须以正确的顺序闭合。
      * 每个右括号都有一个对应的相同类型的左括号。
      *
-     * @param s
+     * @param
      * @return
      */
     public boolean isValid(String s) {
@@ -231,13 +251,150 @@ public class RandomizedSet {
         return stack.isEmpty();
     }
 
+    /**
+     * 规则定义： 设学生 A 和学生 B 左右相邻，A 在 B 左边；
+     * 左规则： 当 ratings
+     * B
+     * ​
+     * >ratings
+     * A
+     * ​
+     * 时，B 的糖比 A 的糖数量多。
+     * 右规则： 当 ratings
+     * A
+     * ​
+     * >ratings
+     * B
+     * ​
+     * 时，A 的糖比 B 的糖数量多。
+     * 相邻的学生中，评分高的学生必须获得更多的糖果 等价于 所有学生满足左规则且满足右规则。
+     * <p>
+     * 算法流程：
+     * <p>
+     * 先从左至右遍历学生成绩 ratings，按照以下规则给糖，并记录在 left 中：
+     * <p>
+     * 先给所有学生 1 颗糖；
+     * <p>
+     * 若 ratings
+     * i
+     * ​
+     * >ratings
+     * i−1
+     * ​
+     * ，则第 i 名学生糖比第 i−1 名学生多 1 个。
+     * <p>
+     * 若 ratings
+     * i
+     * ​
+     * <=ratings
+     * i−1
+     * ​
+     * ，则第 i 名学生糖数量不变。（交由从右向左遍历时处理。）
+     * <p>
+     * 经过此规则分配后，可以保证所有学生糖数量 满足左规则 。
+     * 同理，在此规则下从右至左遍历学生成绩并记录在 right 中，可以保证所有学生糖数量 满足右规则 。
+     * <p>
+     * 最终，取以上 2 轮遍历 left 和 right 对应学生糖果数的 最大值 ，这样则 同时满足左规则和右规则 ，即得到每个同学的最少糖果数量。
+     * <p>
+     * 复杂度分析：
+     * <p>
+     * 时间复杂度 O(N) ： 遍历两遍数组即可得到结果；
+     * 空间复杂度 O(N) ： 需要借用 left，right 的线性额外空间。
+     *
+     * @param ratings
+     * @return
+     */
+    public static int candy(int[] ratings) {
+        int[] left = new int[ratings.length];
+        int[] right = new int[ratings.length];
+
+        Arrays.fill(left, 1);
+        Arrays.fill(right, 1);
+
+        for (int i = 1; i < ratings.length; i++) {
+            if (ratings[i] > ratings[i - 1]) {
+                left[i] = left[i - 1] + 1;
+            }
+        }
+        int count = left[ratings.length - 1];
+
+        for (int i = ratings.length - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                right[i] = right[i + 1] + 1;
+            }
+            count += Math.max(left[i], right[i]);
+        }
+        return count;
+
+    }
+
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> result = new ArrayList<>();
+        List<String> currentLine = new ArrayList<>();
+        int currentLength = 0;
+
+        for (String word : words) {
+            // 检查加入当前单词后是否超过 maxWidth
+            if (currentLength + word.length() + currentLine.size() > maxWidth) {
+                // 处理当前行
+                if (currentLine.size() == 1) {
+                    // 只有一个单词的情况，左对齐即可
+                    StringBuilder line = new StringBuilder(currentLine.get(0));
+                    while (line.length() < maxWidth) {
+                        line.append(" ");
+                    }
+                    result.add(line.toString());
+                } else {
+                    // 计算空格数
+                    int totalSpaces = maxWidth - currentLength;
+                    int spaceBetweenWords = totalSpaces / (currentLine.size() - 1);
+                    int extraSpaces = totalSpaces % (currentLine.size() - 1);
+
+                    // 构建当前行
+                    StringBuilder line = new StringBuilder();
+                    for (int i = 0; i < currentLine.size(); i++) {
+                        line.append(currentLine.get(i));
+                        if (i < currentLine.size() - 1) {
+                            int spacesToApply = spaceBetweenWords + (i < extraSpaces ? 1 : 0);
+                            for (int j = 0; j < spacesToApply; j++) {
+                                line.append(" ");
+                            }
+                        }
+                    }
+                    result.add(line.toString());
+                }
+
+                // 重置当前行
+                currentLine.clear();
+                currentLine.add(word);
+                currentLength = word.length();
+            } else {
+                // 加入当前单词
+                currentLine.add(word);
+                currentLength += word.length();
+            }
+        }
+
+        // 处理最后一行：左对齐，单词间一个空格
+        StringBuilder lastLine = new StringBuilder(String.join(" ", currentLine));
+        while (lastLine.length() < maxWidth) {
+            lastLine.append(" ");
+        }
+        result.add(lastLine.toString());
+
+        return result;
+    }
+
 
     public static void main(String[] args) {
-        RandomizedSet randomizedSet = new RandomizedSet();
-        boolean param_1 = randomizedSet.insert(2);
-        boolean param_2 = randomizedSet.remove(2);
-        int param_3 = randomizedSet.getRandom();
-        System.out.println(param_3);
+
+        RandomizedSet tj = new RandomizedSet();
+        String[] words = {"This", "is", "an", "example", "of", "text", "justification."};
+        int maxWidth = 16;
+        List<String> justifiedText = tj.fullJustify(words, maxWidth);
+        for (String line : justifiedText) {
+            System.out.println("\"" + line + "\"");
+        }
     }
 
 
