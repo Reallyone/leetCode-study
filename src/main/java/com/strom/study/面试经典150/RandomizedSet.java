@@ -163,21 +163,6 @@ public class RandomizedSet {
         return ans;
     }
 
-    /**
-     * 给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。请
-     * <p>
-     * 你返回所有和为 0 且不重复的三元组。
-     * <p>
-     * 注意：答案中不可以包含重复的三元组。
-     *
-     * @param nums
-     * @return
-     */
-    public List<List<Integer>> threeSum(int[] nums) {
-
-
-        return null;
-    }
 
     /**
      * 给定一个含有 n 个正整数的数组和一个正整数 target 。
@@ -381,6 +366,91 @@ public class RandomizedSet {
             lastLine.append(" ");
         }
         result.add(lastLine.toString());
+
+        return result;
+    }
+
+
+    /**
+     * 将一个给定字符串 s 根据给定的行数 numRows ，以从上往下、从左到右进行 Z 字形排列。
+     * <p>
+     * 比如输入字符串为 "PAYPALISHIRING" 行数为 3 时，排列如下：
+     * <p>
+     * P   A   H   N
+     * A P L S I I G
+     * Y   I   R
+     * 之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如："PAHNAPLSIIGYIR"。
+     *
+     * @param s
+     * @param numRows
+     * @return
+     */
+    public String convert(String s, int numRows) {
+        int n = s.length(), r = numRows;
+        if (r == 1 || r >= n) {
+            return s;
+        }
+        StringBuffer[] mat = new StringBuffer[r];
+        for (int i = 0; i < r; ++i) {
+            mat[i] = new StringBuffer();
+        }
+        for (int i = 0, x = 0, t = r * 2 - 2; i < n; ++i) {
+            mat[x].append(s.charAt(i));
+            if (i % t < r - 1) {
+                ++x;
+            } else {
+                --x;
+            }
+        }
+        StringBuffer ans = new StringBuffer();
+        for (StringBuffer row : mat) {
+            ans.append(row);
+        }
+        return ans.toString();
+    }
+
+    /**
+     * 给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。请
+     * <p>
+     * 你返回所有和为 0 且不重复的三元组。
+     * <p>
+     * 注意：答案中不可以包含重复的三元组。
+     *
+     * @param nums
+     * @return
+     */
+
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums); // 先对数组进行排序，方便后续处理
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue; // 避免重复结果
+            }
+
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == 0) {
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++; // 避免重复结果
+                    }
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--; // 避免重复结果
+                    }
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
 
         return result;
     }
